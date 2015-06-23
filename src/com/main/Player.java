@@ -9,7 +9,7 @@ public class Player {
 	public static final int WIDTH = 70;
 	public static final int HEIGHT = 15;
 	
-	private Rectangle hitBox = new Rectangle(0, 0, WIDTH, HEIGHT);
+	private Rectangle hitBox;
 	private Game instance;
 	
 	public Player(Game instance, int x, int y) {
@@ -37,11 +37,9 @@ public class Player {
 	
 	public void move(int speed) {
 		hitBox.x += speed;
-		if(hitBox.x < 0) {
-			hitBox.x = 0;
-		}
-		if (hitBox.x >= instance.getGameWindow().width - WIDTH) {
+		if(hitBox.x < 0) hitBox.x = 0;
+		if (hitBox.x >= instance.getGameWindow().width - WIDTH) 
 			hitBox.x = (int) (instance.getGameWindow().width - WIDTH);
-		}
+		
 	}
 }

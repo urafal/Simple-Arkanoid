@@ -81,7 +81,7 @@ public class Game extends JPanel {
 	@Override
 	public void paint(Graphics graphics) {
 		super.paint(graphics);
-		//placing gameFrame in the middle of mainFrame
+		//moving gameFrame in the middle of mainFrame
 		graphics.translate((this.getWidth() - gameFrame.width) / 2, (this.getHeight() - gameFrame.height) / 2);
 		graphics.setColor(new Color(31, 0, 15));
 		graphics.fillRect(0, 0, gameFrame.width, gameFrame.height);

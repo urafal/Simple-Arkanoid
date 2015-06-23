@@ -11,10 +11,11 @@ import java.awt.Rectangle;
 public class Ball {
 	public static final int RADIUS = 7;
 	private Game instance;
-	private Dimension vector = new Dimension(0, 0);;
+	private Dimension vector;
 	private Point position;
 	
 	public Ball(Game instance) {
+		vector = new Dimension(0, 0);
 		position = new Point(instance.getGameWindow().width / 2, instance.getGameWindow().height / 2);
 		this.instance = instance;
 	}
