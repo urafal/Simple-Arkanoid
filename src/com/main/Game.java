@@ -34,20 +34,13 @@ public class Game extends JPanel {
 		windowFrame.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent event) {
-				System.out.println("Inside");
-				System.out.println(isRunning + "  as");
-				System.out.println(isPaused + "  as");
 				if (!isRunning || isPaused) {
-					if (event.getKeyCode() == event.VK_ENTER) {
-						System.out.println("INSIDE ENTER");
-						start();
-					}
-						
+					if (event.getKeyCode() == event.VK_ENTER) start();	
 				} else {
 					if (event.getKeyCode() == event.VK_RIGHT)
-						player.move(20);
+						player.move(25);
 					if (event.getKeyCode() == event.VK_LEFT)
-						player.move(-20);
+						player.move(-25);
 				}
 			}
 		});
@@ -91,16 +84,12 @@ public class Game extends JPanel {
 	}
 
 	public void start() {
-		System.out.println("INSIDE START");
 		isPaused = false;
-		System.out.println(isPaused);
-		System.out.println("Maybe here" + isRunning);
 		if (!isRunning) gameThread.start();
 	}
 
 	public void pause() {
 		isPaused = true;
-		System.out.println(isPaused + "pause method");
 	}
 
 	public Dimension getGameWindow() {
