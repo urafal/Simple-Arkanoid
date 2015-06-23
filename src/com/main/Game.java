@@ -31,7 +31,12 @@ public class Game extends JPanel {
 		player.setPositionY(gameWindow.height - Player.HEIGHT);
 
 		ball = new Ball(this);
-		windowFrame.addKeyListener(new KeyAdapter() {
+		
+		startGame(windowFrame);
+	}
+	
+	private void startGame(JFrame frame) {
+		frame.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent event) {
 				if (!isRunning || isPaused) {
@@ -44,7 +49,6 @@ public class Game extends JPanel {
 				}
 			}
 		});
-		
 	}
 	
 	Thread gameThread = new Thread(new Runnable() {
