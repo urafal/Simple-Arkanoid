@@ -29,6 +29,7 @@ public class Game extends JPanel {
 	private volatile boolean lose;
 	private int lives;
 	private volatile int score;
+	private int multiplier;
 
 	Game(JFrame mainFrame) {
 		super.setSize(mainFrame.getSize());
@@ -43,6 +44,7 @@ public class Game extends JPanel {
 		lose = false;
 		lives = 3;
 		score = 0;
+		multiplier = 1;
 		//Instead of popular Linux DE (such as Unity or KDE), windows in Microsoft Windows OS family has borders, 
 		//that closes elements of the game, so I decided to use "frame inside frame" (we need to go deeper...)
 		//with the border, which controlling by a "border" variable.
@@ -118,7 +120,7 @@ public class Game extends JPanel {
 			graphics.fillOval(i * rd * 2, -(rd * 2 + rd), rd * 2, rd * 2);
 		}
 		graphics.setFont(new Font("Arial", 0, 18));
-		graphics.drawString("SCORE: " + Integer.toString(score), gameFrame.width - 120, -(rd));
+		graphics.drawString("SCORE: " + Integer.toString(score) + " MULTIPLIER: x" + multiplier, gameFrame.width - 260, -(rd));
 		graphics.setColor(new Color(31, 0, 15));
 		graphics.fillRect(0, 0, gameFrame.width, gameFrame.height);
 		player.render(graphics);
@@ -142,6 +144,8 @@ public class Game extends JPanel {
 	public void fail() {
 		pause();
 		lives -= 1;
+		score -= 1000;
+		multiplier = 1;
 		if(lives <= 0) lose = true;
 		ball.setPosition(gameFrame.width / 2, gameFrame.height / 2);
 		player.setPositionX((gameFrame.width - player.WIDTH) / 2);
@@ -205,7 +209,8 @@ public class Game extends JPanel {
 	}
 
 	public void addScore(int value) {
-		score += value;
+		score += value * multiplier;
+		multiplier++;
 	}
 	
 }

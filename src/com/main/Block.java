@@ -16,7 +16,7 @@ public class Block {
 
 	public void render(Graphics graphics) {
 		if (alive) {
-			graphics.setColor(new Color(36, 143, 36));
+			graphics.setColor(new Color(0, 186, 0));
 			graphics.fillRect(block.x, block.y, block.width, block.height);
 			graphics.setColor(new Color(31, 0, 15));
 			graphics.drawRect(block.x, block.y, block.width, block.height);
