@@ -39,7 +39,21 @@ public class Ball {
 				vector.height = -vector.height;
 			}
 		}
-		
+		boolean win = true;
+		for(Block[] blarr : instance.getBlocks()) {
+			for(Block bl: blarr) {
+				if (bl.collidesWith(new Rectangle(position.x - RADIUS, position.y - RADIUS, RADIUS*2, RADIUS*2))) {
+					bl.destroy();
+					vector.height = -vector.height;
+					for(Block[] blarr2 : instance.getBlocks()) {
+						for (Block bl2 : blarr2) {
+							if (bl2.isAlive()) win = false;
+						}
+					}
+					if (win) instance.setWin(true);
+				}
+			}
+		}
 		position.move(position.x + vector.width, position.y + vector.height);
 	}
 	

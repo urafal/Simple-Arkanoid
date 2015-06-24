@@ -15,23 +15,31 @@ public class Game extends JPanel {
 	private Dimension gameFrame;
 	private Player player;
 	private Ball ball;
-	private volatile boolean isRunning;
-	private volatile boolean isPaused;
+	private volatile boolean running;
+	private volatile boolean paused;
 	private int border;
 	private int playerSpeed;
 	private Block[][] blocks;
 	private int rows;
 	private int platformsInRow;
+	private volatile boolean win;
+	private volatile boolean lose;
+	private int lives;
+	private static final String GAMEOVER = "GAME OVER!";
+	private static final String GAMEWIN = "Congratulations! You win!";
 
 	Game(JFrame mainFrame) {
 		super.setSize(mainFrame.getSize());
 		
-		isRunning = false;
-		isPaused = false;
+		running = false;
+		paused = false;
 		playerSpeed = 25;
 		border = 100;
 		platformsInRow = 10;
 		rows = 4;
+		win = false;
+		lose = false;
+		lives = 3;
 		//Instead of popular Linux DE (such as Unity or KDE), windows in Microsoft Windows OS family has borders, 
 		//that closes elements of the game, so I decided to use "frame inside frame" (we need to go deeper...)
 		//with the border, which controlling by a "border" variable.
@@ -65,7 +73,7 @@ public class Game extends JPanel {
 		frame.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent event) {
-				if (!isRunning || isPaused) {
+				if (!running && !lose && !win ||paused && !lose && !win) {
 					if (event.getKeyCode() == event.VK_ENTER) start();	
 				} else {
 					if (event.getKeyCode() == event.VK_RIGHT)
@@ -79,10 +87,10 @@ public class Game extends JPanel {
 	
 	Thread gameThread = new Thread(new Runnable() {
 		public void run() {
-			isRunning = true;
+			running = true;
 			ball.setVector(10, 10);
-			while (isRunning) {
-				if (!isPaused) {
+			while (running) {
+				if (!paused) {
 					ball.tick();
 					repaint();
 					try {
@@ -101,6 +109,11 @@ public class Game extends JPanel {
 		super.paint(graphics);
 		//moving gameFrame in the middle of mainFrame
 		graphics.translate((this.getWidth() - gameFrame.width) / 2, (this.getHeight() - gameFrame.height) / 2);
+		graphics.setColor(new Color(178, 0, 71));
+		int rd = 8;
+		for (int i = 1; i <= lives; i++) {
+			graphics.fillOval(i * rd * 2, -(rd * 2 + rd), rd * 2, rd * 2);
+		}
 		graphics.setColor(new Color(31, 0, 15));
 		graphics.fillRect(0, 0, gameFrame.width, gameFrame.height);
 		player.render(graphics);
@@ -110,22 +123,37 @@ public class Game extends JPanel {
 				bl.render(graphics);
 			}
 		}
+		graphics.setColor(new Color(255, 255, 255));
+		if (win) {
+			graphics.drawString(GAMEWIN, gameFrame.width / 2 - GAMEWIN.length() - 30, gameFrame.height / 2);
+			stop();
+		}
+		if (lose) {
+			graphics.drawString(GAMEOVER, gameFrame.width / 2 - GAMEOVER.length() - 15, gameFrame.height / 2);
+			stop();
+		}
 	}
 
 	public void fail() {
 		pause();
+		lives -= 1;
+		if(lives <= 0) lose = true;
 		ball.setPosition(gameFrame.width / 2, gameFrame.height / 2);
 		player.setPositionX((gameFrame.width - player.WIDTH) / 2);
 		repaint();
 	}
 
 	public void start() {
-		isPaused = false;
-		if (!isRunning) gameThread.start();
+		paused = false;
+		if (!running) gameThread.start();
 	}
 
 	public void pause() {
-		isPaused = true;
+		paused = true;
+	}
+	
+	public void stop() {
+		running = false;
 	}
 
 	public Dimension getGameFrame() {
@@ -144,4 +172,28 @@ public class Game extends JPanel {
 		this.player = player;
 	}
 
+	public Block[][] getBlocks() {
+		return blocks;
+	}
+
+	public void setBlocks(Block[][] blocks) {
+		this.blocks = blocks;
+	}
+
+	public boolean isWin() {
+		return win;
+	}
+
+	public void setWin(boolean win) {
+		this.win = win;
+	}
+
+	public boolean isLose() {
+		return lose;
+	}
+
+	public void setLose(boolean lose) {
+		this.lose = lose;
+	}
+	
 }
