@@ -14,6 +14,7 @@ public class Block {
 	public void render(Graphics graphics) {
 		graphics.setColor(new Color(36, 143, 36));
 		graphics.fillRect(block.x, block.y, block.width, block.height);
-		
+		graphics.setColor(new Color(31, 0, 15));
+		graphics.drawRect(block.x, block.y, block.width, block.height);
 	}
 }

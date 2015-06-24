@@ -38,8 +38,8 @@ public class Player {
 	public void move(int speed) {
 		hitBox.x += speed;
 		if(hitBox.x < 0) hitBox.x = 0;
-		if (hitBox.x >= instance.getGameWindow().width - WIDTH) 
-			hitBox.x = (int) (instance.getGameWindow().width - WIDTH);
+		if (hitBox.x >= instance.getGameFrame().width - WIDTH) 
+			hitBox.x = (int) (instance.getGameFrame().width - WIDTH);
 		
 	}
 }

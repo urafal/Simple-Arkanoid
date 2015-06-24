@@ -16,7 +16,7 @@ public class Ball {
 	
 	public Ball(Game instance) {
 		vector = new Dimension(0, 0);
-		position = new Point(instance.getGameWindow().width / 2, instance.getGameWindow().height / 2);
+		position = new Point(instance.getGameFrame().width / 2, instance.getGameFrame().height / 2);
 		this.instance = instance;
 	}
 	
@@ -30,9 +30,9 @@ public class Ball {
 	
 	public void tick() {
 		if (position.x - RADIUS*2 <= 0 && vector.width < 0) vector.width = -vector.width;
-		if ((position.x + RADIUS*2) >+ instance.getGameWindow().width && vector.width > 0) vector.width = -vector.width;
+		if ((position.x + RADIUS*2) >+ instance.getGameFrame().width && vector.width > 0) vector.width = -vector.width;
 		if (position.y - RADIUS*2 <= 0 && vector.height < 0) vector.height = -vector.height;
-		if ((position.y + RADIUS*2) >= instance.getGameWindow().height && vector.height > 0) instance.fail();
+		if ((position.y + RADIUS*2) >= instance.getGameFrame().height && vector.height > 0) instance.fail();
 		
 		if(instance.getPlayer() != null) {
 			if(instance.getPlayer().collidesWith(new Rectangle(position.x - RADIUS, position.y - RADIUS, RADIUS*2, RADIUS*2))) {

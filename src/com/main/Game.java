@@ -20,6 +20,8 @@ public class Game extends JPanel {
 	private int border;
 	private int playerSpeed;
 	private Block[][] blocks;
+	private int rows;
+	private int platformsInRow;
 
 	Game(JFrame mainFrame) {
 		super.setSize(mainFrame.getSize());
@@ -28,6 +30,8 @@ public class Game extends JPanel {
 		isPaused = false;
 		playerSpeed = 25;
 		border = 100;
+		platformsInRow = 10;
+		rows = 4;
 		//Instead of popular Linux DE (such as Unity or KDE), windows in Microsoft Windows OS family has borders, 
 		//that closes elements of the game, so I decided to use "frame inside frame" (we need to go deeper...)
 		//with the border, which controlling by a "border" variable.
@@ -40,6 +44,19 @@ public class Game extends JPanel {
 		player.setPositionY(gameFrame.height - Player.HEIGHT);
 
 		ball = new Ball(this);
+		
+		int blockWidth = gameFrame.width / platformsInRow;
+		int blockHeight = (gameFrame.height / 4) / rows; 
+		blocks = new Block[platformsInRow][rows];
+		for(int x = 0; x < blocks.length; x++) {
+			for(int y = 0; y < blocks[0].length; y++) {
+				if (x == blocks.length - 1) {
+					blocks[x][y] = new Block(x * blockWidth, y * blockHeight, blockWidth - 1, blockHeight);
+				} else {
+					blocks[x][y] = new Block(x * blockWidth, y * blockHeight, blockWidth, blockHeight);	
+				}
+			}
+		}
 		
 		startGame(mainFrame);
 	}
@@ -88,6 +105,11 @@ public class Game extends JPanel {
 		graphics.fillRect(0, 0, gameFrame.width, gameFrame.height);
 		player.render(graphics);
 		ball.render(graphics);
+		for(Block[] blarr : blocks) {
+			for(Block bl: blarr) {
+				bl.render(graphics);
+			}
+		}
 	}
 
 	public void fail() {
@@ -106,11 +128,11 @@ public class Game extends JPanel {
 		isPaused = true;
 	}
 
-	public Dimension getGameWindow() {
+	public Dimension getGameFrame() {
 		return gameFrame;
 	}
 
-	public void setGameWindow(Dimension gameWindow) {
+	public void setGameFrame(Dimension gameWindow) {
 		this.gameFrame = gameWindow;
 	}
 
