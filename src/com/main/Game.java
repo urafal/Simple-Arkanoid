@@ -3,6 +3,7 @@ package com.main;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -12,6 +13,8 @@ import javax.swing.JPanel;
 
 public class Game extends JPanel {
 
+	public static final String GAMEOVER = "GAME OVER!";
+	public static final String GAMEWIN = "Congratulations! You win!";
 	private Dimension gameFrame;
 	private Player player;
 	private Ball ball;
@@ -25,8 +28,7 @@ public class Game extends JPanel {
 	private volatile boolean win;
 	private volatile boolean lose;
 	private int lives;
-	private static final String GAMEOVER = "GAME OVER!";
-	private static final String GAMEWIN = "Congratulations! You win!";
+	private volatile int score;
 
 	Game(JFrame mainFrame) {
 		super.setSize(mainFrame.getSize());
@@ -40,6 +42,7 @@ public class Game extends JPanel {
 		win = false;
 		lose = false;
 		lives = 3;
+		score = 0;
 		//Instead of popular Linux DE (such as Unity or KDE), windows in Microsoft Windows OS family has borders, 
 		//that closes elements of the game, so I decided to use "frame inside frame" (we need to go deeper...)
 		//with the border, which controlling by a "border" variable.
@@ -114,6 +117,8 @@ public class Game extends JPanel {
 		for (int i = 1; i <= lives; i++) {
 			graphics.fillOval(i * rd * 2, -(rd * 2 + rd), rd * 2, rd * 2);
 		}
+		graphics.setFont(new Font("Arial", 0, 18));
+		graphics.drawString("SCORE: " + Integer.toString(score), gameFrame.width - 120, -(rd));
 		graphics.setColor(new Color(31, 0, 15));
 		graphics.fillRect(0, 0, gameFrame.width, gameFrame.height);
 		player.render(graphics);
@@ -125,11 +130,11 @@ public class Game extends JPanel {
 		}
 		graphics.setColor(new Color(255, 255, 255));
 		if (win) {
-			graphics.drawString(GAMEWIN, gameFrame.width / 2 - GAMEWIN.length() - 30, gameFrame.height / 2);
+			graphics.drawString(GAMEWIN, gameFrame.width / 2 - GAMEWIN.length() - 50, gameFrame.height / 2);
 			stop();
 		}
 		if (lose) {
-			graphics.drawString(GAMEOVER, gameFrame.width / 2 - GAMEOVER.length() - 15, gameFrame.height / 2);
+			graphics.drawString(GAMEOVER, gameFrame.width / 2 - GAMEOVER.length() - 35, gameFrame.height / 2);
 			stop();
 		}
 	}
@@ -153,6 +158,9 @@ public class Game extends JPanel {
 	}
 	
 	public void stop() {
+		ball.setPosition(gameFrame.width / 2, gameFrame.height / 2);
+		player.setPositionX((gameFrame.width - player.WIDTH) / 2);
+		repaint();
 		running = false;
 	}
 
@@ -194,6 +202,10 @@ public class Game extends JPanel {
 
 	public void setLose(boolean lose) {
 		this.lose = lose;
+	}
+
+	public void addScore(int value) {
+		score += value;
 	}
 	
 }

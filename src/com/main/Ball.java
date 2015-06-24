@@ -45,6 +45,7 @@ public class Ball {
 				if (bl.collidesWith(new Rectangle(position.x - RADIUS, position.y - RADIUS, RADIUS*2, RADIUS*2))) {
 					bl.destroy();
 					vector.height = -vector.height;
+					instance.addScore(Block.VALUE);
 					for(Block[] blarr2 : instance.getBlocks()) {
 						for (Block bl2 : blarr2) {
 							if (bl2.isAlive()) win = false;
