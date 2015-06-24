@@ -19,6 +19,7 @@ public class Game extends JPanel {
 	private volatile boolean isPaused;
 	private int border;
 	private int playerSpeed;
+	private Block[][] blocks;
 
 	Game(JFrame mainFrame) {
 		super.setSize(mainFrame.getSize());
