@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 public class Block {
 	private Rectangle block;
 	private boolean alive;
-	public static final int VALUE = 80;
+	public static final int VALUE = 100;
 
 	public Block(int x, int y, int width, int height) {
 		alive = true;
@@ -33,6 +33,6 @@ public class Block {
 	}
 	
 	public boolean isAlive() {
-		return !alive;
+		return alive;
 	}
 }
