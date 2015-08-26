@@ -8,7 +8,6 @@ public class Block {
 	private Rectangle block;
 	private boolean alive;
 	public static final int VALUE = 100;
-	public static boolean tr = true;
 
 	public Block(int x, int y, int width, int height) {
 		alive = true;
